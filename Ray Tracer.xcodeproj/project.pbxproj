@@ -1,0 +1,382 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0241406E215AAF610030322C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0241406D215AAF610030322C /* main.cpp */; };
+		02414076215AB0930030322C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414075215AB0930030322C /* OpenGL.framework */; };
+		02414078215AB0C40030322C /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414077215AB0C40030322C /* libglfw.3.2.dylib */; };
+		0241407A215AB0D80030322C /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414079215AB0D80030322C /* libGLEW.2.1.0.dylib */; };
+		02ED2260215EAB520088BB5E /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2255215EAB520088BB5E /* color.cpp */; };
+		02ED2262215EAB520088BB5E /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2259215EAB520088BB5E /* ray.cpp */; };
+		02ED2263215EAB520088BB5E /* shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED225B215EAB520088BB5E /* shape.cpp */; };
+		02ED2264215EAB520088BB5E /* vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED225D215EAB520088BB5E /* vector3.cpp */; };
+		02ED226B215EB6680088BB5E /* intersection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2269215EB6680088BB5E /* intersection.cpp */; };
+		02ED22712161116C0088BB5E /* plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED226F2161116C0088BB5E /* plane.cpp */; };
+		02ED2274216113210088BB5E /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2272216113210088BB5E /* sphere.cpp */; };
+		02ED2277216153AC0088BB5E /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2275216153AC0088BB5E /* camera.cpp */; };
+		02ED227A216156D70088BB5E /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2278216156D70088BB5E /* image.cpp */; };
+		02F6B4B821624DF600B63C83 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F6B4B621624DF600B63C83 /* light.cpp */; };
+		02F6B4BD216262FD00B63C83 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F6B4BB216262FD00B63C83 /* material.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		02414068215AAF610030322C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0241406A215AAF610030322C /* Ray Tracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Ray Tracer"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0241406D215AAF610030322C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		02414075215AB0930030322C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		02414077215AB0C40030322C /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../../../../usr/local/Cellar/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
+		02414079215AB0D80030322C /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
+		0241407B215AB22D0030322C /* glfw3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
+		0241407C215AB22D0030322C /* glfw3native.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
+		0241407D215AB2450030322C /* glew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
+		0241407E215AB2450030322C /* glxew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
+		0241407F215AB2450030322C /* wglew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
+		02ED2255215EAB520088BB5E /* color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
+		02ED2256215EAB520088BB5E /* color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
+		02ED2259215EAB520088BB5E /* ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray.cpp; sourceTree = "<group>"; };
+		02ED225A215EAB520088BB5E /* ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray.h; sourceTree = "<group>"; };
+		02ED225B215EAB520088BB5E /* shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shape.cpp; sourceTree = "<group>"; };
+		02ED225C215EAB520088BB5E /* shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shape.h; sourceTree = "<group>"; };
+		02ED225D215EAB520088BB5E /* vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector3.cpp; sourceTree = "<group>"; };
+		02ED225E215EAB520088BB5E /* vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector3.h; sourceTree = "<group>"; };
+		02ED2269215EB6680088BB5E /* intersection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = intersection.cpp; sourceTree = "<group>"; };
+		02ED226A215EB6680088BB5E /* intersection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intersection.h; sourceTree = "<group>"; };
+		02ED226F2161116C0088BB5E /* plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plane.cpp; sourceTree = "<group>"; };
+		02ED22702161116C0088BB5E /* plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plane.h; sourceTree = "<group>"; };
+		02ED2272216113210088BB5E /* sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
+		02ED2273216113210088BB5E /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
+		02ED2275216153AC0088BB5E /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
+		02ED2276216153AC0088BB5E /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		02ED2278216156D70088BB5E /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
+		02ED2279216156D70088BB5E /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		02F6B4B621624DF600B63C83 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
+		02F6B4B721624DF600B63C83 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		02F6B4BB216262FD00B63C83 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		02F6B4BC216262FD00B63C83 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		02414067215AAF610030322C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02414078215AB0C40030322C /* libglfw.3.2.dylib in Frameworks */,
+				0241407A215AB0D80030322C /* libGLEW.2.1.0.dylib in Frameworks */,
+				02414076215AB0930030322C /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		02414061215AAF610030322C = {
+			isa = PBXGroup;
+			children = (
+				0241406C215AAF610030322C /* Ray Tracer */,
+				0241406B215AAF610030322C /* Products */,
+				02414074215AB0930030322C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0241406B215AAF610030322C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0241406A215AAF610030322C /* Ray Tracer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0241406C215AAF610030322C /* Ray Tracer */ = {
+			isa = PBXGroup;
+			children = (
+				0241406D215AAF610030322C /* main.cpp */,
+				02ED2265215EAB580088BB5E /* Aux */,
+				02ED2252215EAB060088BB5E /* Bib */,
+			);
+			path = "Ray Tracer";
+			sourceTree = "<group>";
+		};
+		02414074215AB0930030322C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02414079215AB0D80030322C /* libGLEW.2.1.0.dylib */,
+				02414077215AB0C40030322C /* libglfw.3.2.dylib */,
+				02414075215AB0930030322C /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		02ED2252215EAB060088BB5E /* Bib */ = {
+			isa = PBXGroup;
+			children = (
+				0241407B215AB22D0030322C /* glfw3.h */,
+				0241407C215AB22D0030322C /* glfw3native.h */,
+				0241407D215AB2450030322C /* glew.h */,
+				0241407E215AB2450030322C /* glxew.h */,
+				0241407F215AB2450030322C /* wglew.h */,
+			);
+			name = Bib;
+			sourceTree = "<group>";
+		};
+		02ED2265215EAB580088BB5E /* Aux */ = {
+			isa = PBXGroup;
+			children = (
+				02ED2275216153AC0088BB5E /* camera.cpp */,
+				02ED2276216153AC0088BB5E /* camera.h */,
+				02ED2255215EAB520088BB5E /* color.cpp */,
+				02ED2256215EAB520088BB5E /* color.h */,
+				02ED2278216156D70088BB5E /* image.cpp */,
+				02ED2279216156D70088BB5E /* image.h */,
+				02ED2269215EB6680088BB5E /* intersection.cpp */,
+				02ED226A215EB6680088BB5E /* intersection.h */,
+				02ED226F2161116C0088BB5E /* plane.cpp */,
+				02ED22702161116C0088BB5E /* plane.h */,
+				02ED2259215EAB520088BB5E /* ray.cpp */,
+				02ED225A215EAB520088BB5E /* ray.h */,
+				02ED225B215EAB520088BB5E /* shape.cpp */,
+				02ED225C215EAB520088BB5E /* shape.h */,
+				02ED2272216113210088BB5E /* sphere.cpp */,
+				02ED2273216113210088BB5E /* sphere.h */,
+				02ED225D215EAB520088BB5E /* vector3.cpp */,
+				02ED225E215EAB520088BB5E /* vector3.h */,
+				02F6B4B621624DF600B63C83 /* light.cpp */,
+				02F6B4B721624DF600B63C83 /* light.h */,
+				02F6B4BB216262FD00B63C83 /* material.cpp */,
+				02F6B4BC216262FD00B63C83 /* material.h */,
+			);
+			name = Aux;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		02414069215AAF610030322C /* Ray Tracer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02414071215AAF610030322C /* Build configuration list for PBXNativeTarget "Ray Tracer" */;
+			buildPhases = (
+				02414066215AAF610030322C /* Sources */,
+				02414067215AAF610030322C /* Frameworks */,
+				02414068215AAF610030322C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Ray Tracer";
+			productName = "Ray Tracer";
+			productReference = 0241406A215AAF610030322C /* Ray Tracer */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		02414062215AAF610030322C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Arthur Silva Bastos";
+				TargetAttributes = {
+					02414069215AAF610030322C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 02414065215AAF610030322C /* Build configuration list for PBXProject "Ray Tracer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 02414061215AAF610030322C;
+			productRefGroup = 0241406B215AAF610030322C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				02414069215AAF610030322C /* Ray Tracer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02414066215AAF610030322C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02F6B4BD216262FD00B63C83 /* material.cpp in Sources */,
+				02ED2260215EAB520088BB5E /* color.cpp in Sources */,
+				02ED2263215EAB520088BB5E /* shape.cpp in Sources */,
+				02ED2264215EAB520088BB5E /* vector3.cpp in Sources */,
+				02ED2274216113210088BB5E /* sphere.cpp in Sources */,
+				02ED2277216153AC0088BB5E /* camera.cpp in Sources */,
+				02ED22712161116C0088BB5E /* plane.cpp in Sources */,
+				0241406E215AAF610030322C /* main.cpp in Sources */,
+				02ED227A216156D70088BB5E /* image.cpp in Sources */,
+				02ED2262215EAB520088BB5E /* ray.cpp in Sources */,
+				02F6B4B821624DF600B63C83 /* light.cpp in Sources */,
+				02ED226B215EB6680088BB5E /* intersection.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0241406F215AAF610030322C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		02414070215AAF610030322C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		02414072215AAF610030322C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				HEADER_SEARCH_PATHS = usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					/usr/local/Cellar/glew/2.1.0/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		02414073215AAF610030322C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				HEADER_SEARCH_PATHS = usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					/usr/local/Cellar/glew/2.1.0/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		02414065215AAF610030322C /* Build configuration list for PBXProject "Ray Tracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0241406F215AAF610030322C /* Debug */,
+				02414070215AAF610030322C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02414071215AAF610030322C /* Build configuration list for PBXNativeTarget "Ray Tracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02414072215AAF610030322C /* Debug */,
+				02414073215AAF610030322C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 02414062215AAF610030322C /* Project object */;
+}
