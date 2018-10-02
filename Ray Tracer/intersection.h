@@ -23,6 +23,7 @@ struct Intersection{
 	
 	bool intersected() const;
 	Point position() const;
+	Vector3 normal() const;
 };
 
 #endif

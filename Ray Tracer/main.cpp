@@ -28,6 +28,18 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 				Point observerPoint = camera->origin;
 				
 				*curPixel = intersection.pShape->getFinalColor(contactPoint, observerPoint, light);
+				
+				Vector3 reflectedDirection = intersection.ray.direction.getReflection(intersection.normal());
+				//Ray fromContactToLight = Ray(contactPoint, reflectedDirection, T_MAX);
+				
+				Ray fromContactToLight = Ray(contactPoint, (light.position - contactPoint).normalized(), T_MAX);
+				Intersection shadowRay(fromContactToLight);
+
+				
+				if (scene->intersect(shadowRay)){
+					*curPixel = shadowRay.pShape->getFinalColor(contactPoint, observerPoint, light);
+				}
+				
 			}
 			else{
 				*curPixel = Color(0.3f, 0.3f, 0.3f);
@@ -39,21 +51,30 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 void drawScene(){
 	ShapeSet scene;
 	
-	Light ambientLight(Point(-7.0f, 10.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
+	Light ambientLight(Point(-500.0f, 100.0f, -300.0f), Color(0.7f, 0.7f, 0.7f));
 	
 	Material planeMaterial(0.6f, 0.2f, 0.2f, 1);
-	Material sphereMaterial(0.5f, 0.6f, 0.6f, 10);
+	Material bodyMaterial(0.8f, 0.4f, 0.4f, 20);
+	Material eyeMaterial(0, 0, 0, 1);
 	
 	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Color(0.5f, 1.0f, 0.5f), planeMaterial);
-	Sphere sphere(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(0.5f, 0.5f, 1.0f), sphereMaterial);
+	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
+	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
+	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
+	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
+	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
 	
 	scene.addShape(&floor);
-	scene.addShape(&sphere);
+	scene.addShape(&sphere1);
+	scene.addShape(&sphere2);
+	scene.addShape(&sphere3);
+	scene.addShape(&eye1);
+	scene.addShape(&eye2);
 	
 	Image image(WIDTH, HEIGHT);
 
-	Camera camera(Point(-5.0f, 0.5f, 0.0f),
-				  Vector3(0.0f, 1.0f, 0.0f),
+	Camera camera(Point(-5.0f, 2.0f, 0.0f),
+				  Vector3(0.0f, 2.0f, 0.0f),
 				  Vector3(0.0f, -1.0f, 0.0f),
 				  25.0f * PI / 180.0f,
 				  (float)WIDTH / (float)HEIGHT);

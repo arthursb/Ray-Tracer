@@ -60,3 +60,7 @@ Color Sphere::getFinalColor(const Point& contactPoint, const Point& observerPoin
 	return finalColor;
 }
 
+Vector3 Sphere::getNormal(const Point& contactPoint){
+	return (contactPoint - this->center).normalized();
+}
+

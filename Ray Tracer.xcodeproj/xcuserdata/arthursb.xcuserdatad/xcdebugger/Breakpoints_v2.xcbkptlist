@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Ray Tracer/main.cpp"
-            timestampString = "560104546.948246"
+            timestampString = "560128794.0038331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "rayTrace(Image&amp; image, Camera* camera, Light&amp; light, ShapeSet* scene)"
             landmarkType = "9">
          </BreakpointContent>

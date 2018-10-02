@@ -51,6 +51,11 @@ Vector3 cross(Vector3 v1, Vector3 v2){
 				   v1.x * v2.y - v1.y * v2.x);
 }
 
+//r = d - 2 (d dot n) n
+Vector3 Vector3::getReflection(const Vector3& normal){
+	return *this - 2 * dot(*this, normal) * normal;
+}
+
 Vector3& Vector3::operator =(const Vector3& v){
 	this->x = v.x;
 	this->y = v.y;

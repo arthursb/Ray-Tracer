@@ -36,3 +36,10 @@ bool Intersection::intersected() const{
 Point Intersection::position() const{
 	return ray.calculate(t);
 }
+
+Vector3 Intersection::normal() const{
+	if(!intersected())
+		return Vector3();
+		
+	return this->pShape->getNormal(this->position());
+}

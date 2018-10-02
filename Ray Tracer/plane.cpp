@@ -53,3 +53,7 @@ Color Plane::getFinalColor(const Point& contactPoint, const Point& observerPoint
 	
 	return finalColor;
 }
+
+Vector3 Plane::getNormal(const Point& contactPoint){
+	return normal;
+}
