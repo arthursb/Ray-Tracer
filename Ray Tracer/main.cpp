@@ -29,20 +29,19 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 				
 				*curPixel = intersection.pShape->getFinalColor(contactPoint, observerPoint, light);
 				
-				Vector3 reflectedDirection = intersection.ray.direction.getReflection(intersection.normal());
+				//Vector3 reflectedDirection = intersection.ray.direction.getReflection(intersection.normal());
 				//Ray fromContactToLight = Ray(contactPoint, reflectedDirection, T_MAX);
 				
 				Ray fromContactToLight = Ray(contactPoint, (light.position - contactPoint).normalized(), T_MAX);
 				Intersection shadowRay(fromContactToLight);
 
-				
 				if (scene->intersect(shadowRay)){
 					*curPixel = shadowRay.pShape->getFinalColor(contactPoint, observerPoint, light);
 				}
 				
 			}
 			else{
-				*curPixel = Color(0.3f, 0.3f, 0.3f);
+				*curPixel = Color(0.4f, 0.4f, 0.4f);
 			}
 		}
 	}
@@ -51,16 +50,18 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 void drawScene(){
 	ShapeSet scene;
 	
-	Light ambientLight(Point(-500.0f, 100.0f, -300.0f), Color(0.7f, 0.7f, 0.7f));
+	Light ambientLight(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
 	
 	Material planeMaterial(0.6f, 0.2f, 0.2f, 1);
 	Material bodyMaterial(0.8f, 0.4f, 0.4f, 20);
 	Material eyeMaterial(0, 0, 0, 1);
+	Material crystalMaterial(1.0f, 0.0f, 0.0f, 1);
 	
-	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Color(0.5f, 1.0f, 0.5f), planeMaterial);
-	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
-	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
-	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, Color(1.0f, 1.0f, 1.0f), bodyMaterial);
+	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Color(0.23f, 0.37f, 0.70f), planeMaterial);
+	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
+	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
+	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
+	Sphere crystal(Point(-0.75f, 2.0f, 0.0f), 0.125f, Color(0.23f, 0.37f, 0.70f), crystalMaterial);
 	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
 	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
 	
@@ -68,6 +69,7 @@ void drawScene(){
 	scene.addShape(&sphere1);
 	scene.addShape(&sphere2);
 	scene.addShape(&sphere3);
+	scene.addShape(&crystal);
 	scene.addShape(&eye1);
 	scene.addShape(&eye2);
 	
