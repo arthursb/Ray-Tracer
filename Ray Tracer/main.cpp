@@ -36,7 +36,7 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 				Intersection shadowRay(fromContactToLight);
 
 				if (scene->intersect(shadowRay)){
-					*curPixel = shadowRay.pShape->getFinalColor(contactPoint, observerPoint, light);
+					*curPixel = intersection.pShape->getShadowColor();
 				}
 				
 			}
@@ -52,8 +52,8 @@ void drawScene(){
 	
 	Light ambientLight(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
 	
-	Material planeMaterial(0.6f, 0.2f, 0.2f, 1);
-	Material bodyMaterial(0.8f, 0.4f, 0.4f, 20);
+	Material planeMaterial(0.6f, 1.0f, 1.0f, 1);
+	Material bodyMaterial(0.8f, 0.6f, 0.6f, 20);
 	Material eyeMaterial(0, 0, 0, 1);
 	Material crystalMaterial(1.0f, 0.0f, 0.0f, 1);
 	
@@ -75,7 +75,7 @@ void drawScene(){
 	
 	Image image(WIDTH, HEIGHT);
 
-	Camera camera(Point(-5.0f, 2.0f, 0.0f),
+	Camera camera(Point(-5.0f, 3.0f, 0.0f),
 				  Vector3(0.0f, 2.0f, 0.0f),
 				  Vector3(0.0f, -1.0f, 0.0f),
 				  25.0f * PI / 180.0f,

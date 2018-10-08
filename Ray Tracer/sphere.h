@@ -27,6 +27,7 @@ public:
 	
 	virtual bool intersect(Intersection& intersection);
 	virtual Color getFinalColor(const Point& contactPoint, const Point& observerPoint, const Light& light);
+	virtual Color getShadowColor();
 	virtual Vector3 getNormal(const Point& contactPoint);
 };
 

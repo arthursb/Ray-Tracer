@@ -43,15 +43,24 @@ Color Plane::getFinalColor(const Point& contactPoint, const Point& observerPoint
 	Vector3 v = (observerPoint - contactPoint).normalized();
 	
 	Color ambient = this->color * this->material.kAmbient;
-	Color diffuse = light.color * this->material.kAmbient * (dot(n, l));
+	Color diffuse = light.color * this->material.kDiffuse * (dot(n, l));
 	
 	float specCalc = std::pow(2 * dot(n, l) * dot (n, v) - dot(v, l), this->material.shininess);
-	Color specular = light.color * this->material.kAmbient * specCalc;
+	Color specular = light.color * this->material.kSpecular * specCalc;
 	
 	Color finalColor = ambient + diffuse + specular;
 	finalColor.clamp();
 	
 	return finalColor;
+}
+
+Color Plane::getShadowColor(){
+	Color ambient = this->color * this->material.kAmbient;
+	
+	Color shadowColor = ambient;
+	shadowColor.clamp();
+	
+	return shadowColor * 0.6f;
 }
 
 Vector3 Plane::getNormal(const Point& contactPoint){
