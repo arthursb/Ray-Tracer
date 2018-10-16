@@ -1,6 +1,7 @@
 #include <iostream>
 #include "glew.h"
 #include "glfw3.h"
+#include "FreeImage.h"
 
 #include "camera.h"
 #include "image.h"
@@ -10,6 +11,12 @@
 
 const GLint WIDTH = 400;
 const GLint HEIGHT = 300;
+
+const bool imageAsBG = true;
+const char* imagePath = "/Users/arthursb/Desktop/Ray Tracer/Ray Tracer/Images/img_test.bmp";
+const Color bgColor = Color(0.4f, 0.4f, 0.4f);
+
+FIBITMAP *bitmap;
 
 void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 	for (int x = 0; x < WIDTH; x++){
@@ -22,31 +29,36 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 			Color* curPixel = image.getColor(x, y);
 			
 			Intersection intersection(ray);
-			
+		
 			if (scene->intersect(intersection)){
 				Point contactPoint = intersection.position();
 				Point observerPoint = camera->origin;
 				
 				*curPixel = intersection.pShape->getFinalColor(contactPoint, observerPoint, light);
-				
-				//Vector3 reflectedDirection = intersection.ray.direction.getReflection(intersection.normal());
-				//Ray fromContactToLight = Ray(contactPoint, reflectedDirection, T_MAX);
-				
+			
 				Ray fromContactToLight = Ray(contactPoint, (light.position - contactPoint).normalized(), T_MAX);
 				Intersection shadowRay(fromContactToLight);
 
 				if (scene->intersect(shadowRay)){
 					*curPixel = intersection.pShape->getShadowColor();
 				}
-				
 			}
 			else{
-				*curPixel = Color(0.4f, 0.4f, 0.4f);
+				if(imageAsBG == true){
+					RGBQUAD color;
+					FreeImage_GetPixelColor(bitmap, x, y, &color);
+					*curPixel = Color((float)color.rgbRed, (float)color.rgbGreen, (float)color.rgbBlue);
+				}
+				else
+					*curPixel = bgColor;
 			}
 		}
 	}
+
+	
 }
 
+//SET DRAW SCENE
 void drawScene(){
 	ShapeSet scene;
 	
@@ -75,8 +87,8 @@ void drawScene(){
 	
 	Image image(WIDTH, HEIGHT);
 
-	Camera camera(Point(-5.0f, 3.0f, 0.0f),
-				  Vector3(0.0f, 2.0f, 0.0f),
+	Camera camera(Point(-7.0f, 1.0f, 0.0f),
+				  Vector3(0.0f, 2.0f, -2.0f),
 				  Vector3(0.0f, -1.0f, 0.0f),
 				  25.0f * PI / 180.0f,
 				  (float)WIDTH / (float)HEIGHT);
@@ -96,12 +108,11 @@ void drawScene(){
 }
 
 int main( ){
+	//INITIALIZE WINDOW
 	GLFWwindow *window;
 
-	if (!glfwInit( )){
+	if (!glfwInit( ))
 		return -1;
-	}
-	
 	window = glfwCreateWindow( WIDTH, HEIGHT, "TEST", NULL, NULL );
 	
 	if (!window){
@@ -109,15 +120,24 @@ int main( ){
 		return -1;
 	}
 
+	//SET GL WINDOW STUFF
 	glfwMakeContextCurrent( window );
-	
 	glViewport(0, 0, WIDTH*2, HEIGHT*2);
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	glOrtho( 0, WIDTH, 0, HEIGHT, -1, 1);
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-
+	
+	//GET BG IMAGE STUFF
+	FreeImage_Initialise ();
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(imagePath);
+	bitmap = FreeImage_Load(fif, imagePath);
+	RGBQUAD color;
+	if(FreeImage_GetPixelColor(bitmap, 128, 128, &color))
+	std::cout << (float) color.rgbRed << "_" << (float) color.rgbGreen << "_" << (float) color.rgbBlue << "\n";
+	
+	//DRAW
 	while (!glfwWindowShouldClose(window)){
 		glClearColor(0.7f, 0.7f, 0.7f, 1);
 		glClear( GL_COLOR_BUFFER_BIT );
@@ -129,6 +149,8 @@ int main( ){
 		glfwPollEvents( );
 	}
 	
+	//FINALIZE
+	FreeImage_DeInitialise ();
 	glfwTerminate( );
 	return 0;
 }

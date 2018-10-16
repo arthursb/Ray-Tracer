@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02063DE5217556A700A9A480 /* libfreeimage.3.18.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02063DE4217556A700A9A480 /* libfreeimage.3.18.0.dylib */; };
 		0241406E215AAF610030322C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0241406D215AAF610030322C /* main.cpp */; };
 		02414076215AB0930030322C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414075215AB0930030322C /* OpenGL.framework */; };
 		02414078215AB0C40030322C /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414077215AB0C40030322C /* libglfw.3.2.dylib */; };
@@ -37,6 +38,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02063DE4217556A700A9A480 /* libfreeimage.3.18.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreeimage.3.18.0.dylib; path = ../../../../usr/local/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib; sourceTree = "<group>"; };
+		02063DE6217556C200A9A480 /* FreeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FreeImage.h; path = ../../../../../usr/local/Cellar/freeimage/3.18.0/include/FreeImage.h; sourceTree = "<group>"; };
+		02063DE7217556C200A9A480 /* FreeImagePlus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FreeImagePlus.h; path = ../../../../../usr/local/Cellar/freeimage/3.18.0/include/FreeImagePlus.h; sourceTree = "<group>"; };
+		023E294F2174DE8F0094061B /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		0241406A215AAF610030322C /* Ray Tracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Ray Tracer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0241406D215AAF610030322C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		02414075215AB0930030322C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -77,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02414078215AB0C40030322C /* libglfw.3.2.dylib in Frameworks */,
+				02063DE5217556A700A9A480 /* libfreeimage.3.18.0.dylib in Frameworks */,
 				0241407A215AB0D80030322C /* libGLEW.2.1.0.dylib in Frameworks */,
 				02414076215AB0930030322C /* OpenGL.framework in Frameworks */,
 			);
@@ -105,6 +111,7 @@
 		0241406C215AAF610030322C /* Ray Tracer */ = {
 			isa = PBXGroup;
 			children = (
+				023E294F2174DE8F0094061B /* Images */,
 				0241406D215AAF610030322C /* main.cpp */,
 				02ED2265215EAB580088BB5E /* Aux */,
 				02ED2252215EAB060088BB5E /* Bib */,
@@ -115,6 +122,7 @@
 		02414074215AB0930030322C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02063DE4217556A700A9A480 /* libfreeimage.3.18.0.dylib */,
 				02414079215AB0D80030322C /* libGLEW.2.1.0.dylib */,
 				02414077215AB0C40030322C /* libglfw.3.2.dylib */,
 				02414075215AB0930030322C /* OpenGL.framework */,
@@ -125,6 +133,8 @@
 		02ED2252215EAB060088BB5E /* Bib */ = {
 			isa = PBXGroup;
 			children = (
+				02063DE6217556C200A9A480 /* FreeImage.h */,
+				02063DE7217556C200A9A480 /* FreeImagePlus.h */,
 				0241407B215AB22D0030322C /* glfw3.h */,
 				0241407C215AB22D0030322C /* glfw3native.h */,
 				0241407D215AB2450030322C /* glew.h */,
@@ -330,13 +340,17 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.2.1/lib,
 					/usr/local/Cellar/glew/2.1.0/lib,
+					/usr/local/Cellar/freeimage/3.18.0/lib,
+					"$(PROJECT_DIR)/Ray\\ Tracer",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -345,13 +359,17 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.2.1/lib,
 					/usr/local/Cellar/glew/2.1.0/lib,
+					/usr/local/Cellar/freeimage/3.18.0/lib,
+					"$(PROJECT_DIR)/Ray\\ Tracer",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
