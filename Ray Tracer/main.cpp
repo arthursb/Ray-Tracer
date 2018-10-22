@@ -6,6 +6,7 @@
 #include "camera.h"
 #include "image.h"
 #include "plane.h"
+#include "triangle.h"
 #include "sphere.h"
 #include "light.h"
 
@@ -13,7 +14,7 @@ const GLint WIDTH = 400;
 const GLint HEIGHT = 300;
 
 const bool imageAsBG = true;
-const char* imagePath = "/Users/arthursb/Desktop/Ray Tracer/Ray Tracer/Images/img_test.bmp";
+const char* imagePath = "/Users/arthursb/Desktop/Ray Tracer/Ray Tracer/Images/img_mars.jpg";
 const Color bgColor = Color(0.4f, 0.4f, 0.4f);
 
 FIBITMAP *bitmap;
@@ -47,7 +48,7 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 				if(imageAsBG == true){
 					RGBQUAD color;
 					FreeImage_GetPixelColor(bitmap, x, y, &color);
-					*curPixel = Color((float)color.rgbRed, (float)color.rgbGreen, (float)color.rgbBlue);
+					*curPixel = Color((float)color.rgbRed/255, (float)color.rgbGreen/255, (float)color.rgbBlue/255);
 				}
 				else
 					*curPixel = bgColor;
@@ -68,7 +69,9 @@ void drawScene(){
 	Material bodyMaterial(0.8f, 0.6f, 0.6f, 20);
 	Material eyeMaterial(0, 0, 0, 1);
 	Material crystalMaterial(1.0f, 0.0f, 0.0f, 1);
+	Material triangleMaterial(0.6f, 1.0f, 1.0f, 1);
 	
+	/*
 	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Color(0.23f, 0.37f, 0.70f), planeMaterial);
 	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
 	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
@@ -76,7 +79,13 @@ void drawScene(){
 	Sphere crystal(Point(-0.75f, 2.0f, 0.0f), 0.125f, Color(0.23f, 0.37f, 0.70f), crystalMaterial);
 	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
 	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
+	*/
 	
+	Triangle triangleTest(Point(2.0f, 0.0f, 2.0f), Point(-2.0f, 0.0f, 2.0), Point(0.0f, 0.0, -4.0),
+						  Color(1.0f, 0.15f, 0.15f),
+						  triangleMaterial);
+	
+	/*
 	scene.addShape(&floor);
 	scene.addShape(&sphere1);
 	scene.addShape(&sphere2);
@@ -84,6 +93,9 @@ void drawScene(){
 	scene.addShape(&crystal);
 	scene.addShape(&eye1);
 	scene.addShape(&eye2);
+	 */
+	
+	scene.addShape(&triangleTest);
 	
 	Image image(WIDTH, HEIGHT);
 
@@ -133,9 +145,6 @@ int main( ){
 	FreeImage_Initialise ();
 	FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(imagePath);
 	bitmap = FreeImage_Load(fif, imagePath);
-	RGBQUAD color;
-	if(FreeImage_GetPixelColor(bitmap, 128, 128, &color))
-	std::cout << (float) color.rgbRed << "_" << (float) color.rgbGreen << "_" << (float) color.rgbBlue << "\n";
 	
 	//DRAW
 	while (!glfwWindowShouldClose(window)){
