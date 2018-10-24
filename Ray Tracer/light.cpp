@@ -12,3 +12,13 @@ Light::Light (const Point& position, const Color& color) {
 
 Light::~Light () {
 }
+
+LightSet::LightSet(){
+}
+
+LightSet::~LightSet(){
+}
+
+void LightSet::addLight(Light* light){
+	lights.push_back(light);
+}

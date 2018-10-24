@@ -15,4 +15,16 @@ public:
 	virtual ~Light();
 };
 
+class LightSet{
+protected:
+	std::vector<Light*> lights;
+	
+public:
+	LightSet();
+	
+	virtual ~LightSet();
+	
+	void addLight(Light* light);
+};
+
 #endif //LIGHT_H
