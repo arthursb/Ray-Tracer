@@ -12,10 +12,6 @@
 		02414076215AB0930030322C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414075215AB0930030322C /* OpenGL.framework */; };
 		02414078215AB0C40030322C /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414077215AB0C40030322C /* libglfw.3.2.dylib */; };
 		0241407A215AB0D80030322C /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02414079215AB0D80030322C /* libGLEW.2.1.0.dylib */; };
-		0255E27C2180D3D300AAE76E /* ambientlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0255E27B2180D3D300AAE76E /* ambientlight.cpp */; };
-		0255E27F2180D3F300AAE76E /* spotlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0255E27D2180D3F300AAE76E /* spotlight.cpp */; };
-		0255E2822180D40A00AAE76E /* directionallight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0255E2802180D40A00AAE76E /* directionallight.cpp */; };
-		0255E2852180D41A00AAE76E /* pointlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0255E2832180D41A00AAE76E /* pointlight.cpp */; };
 		02B7507B217E128F00298BA7 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02B75079217E128F00298BA7 /* triangle.cpp */; };
 		02ED2260215EAB520088BB5E /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2255215EAB520088BB5E /* color.cpp */; };
 		02ED2262215EAB520088BB5E /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ED2259215EAB520088BB5E /* ray.cpp */; };
@@ -57,14 +53,6 @@
 		0241407D215AB2450030322C /* glew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		0241407E215AB2450030322C /* glxew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
 		0241407F215AB2450030322C /* wglew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
-		0255E27A2180D3D300AAE76E /* ambientlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ambientlight.h; sourceTree = "<group>"; };
-		0255E27B2180D3D300AAE76E /* ambientlight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ambientlight.cpp; sourceTree = "<group>"; };
-		0255E27D2180D3F300AAE76E /* spotlight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = spotlight.cpp; sourceTree = "<group>"; };
-		0255E27E2180D3F300AAE76E /* spotlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spotlight.h; sourceTree = "<group>"; };
-		0255E2802180D40A00AAE76E /* directionallight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = directionallight.cpp; sourceTree = "<group>"; };
-		0255E2812180D40A00AAE76E /* directionallight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = directionallight.h; sourceTree = "<group>"; };
-		0255E2832180D41A00AAE76E /* pointlight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pointlight.cpp; sourceTree = "<group>"; };
-		0255E2842180D41A00AAE76E /* pointlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pointlight.h; sourceTree = "<group>"; };
 		02B75079217E128F00298BA7 /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
 		02B7507A217E128F00298BA7 /* triangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = triangle.h; sourceTree = "<group>"; };
 		02ED2255215EAB520088BB5E /* color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
@@ -106,6 +94,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		023115222180EC1D008B2248 /* Color Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				02ED2255215EAB520088BB5E /* color.cpp */,
+				02ED2256215EAB520088BB5E /* color.h */,
+				02ED2278216156D70088BB5E /* image.cpp */,
+				02ED2279216156D70088BB5E /* image.h */,
+				02F6B4BB216262FD00B63C83 /* material.cpp */,
+				02F6B4BC216262FD00B63C83 /* material.h */,
+			);
+			name = "Color Stuff";
+			sourceTree = "<group>";
+		};
 		02414061215AAF610030322C = {
 			isa = PBXGroup;
 			children = (
@@ -165,14 +166,6 @@
 			children = (
 				02F6B4B621624DF600B63C83 /* light.cpp */,
 				02F6B4B721624DF600B63C83 /* light.h */,
-				0255E27A2180D3D300AAE76E /* ambientlight.h */,
-				0255E27B2180D3D300AAE76E /* ambientlight.cpp */,
-				0255E27D2180D3F300AAE76E /* spotlight.cpp */,
-				0255E27E2180D3F300AAE76E /* spotlight.h */,
-				0255E2802180D40A00AAE76E /* directionallight.cpp */,
-				0255E2812180D40A00AAE76E /* directionallight.h */,
-				0255E2832180D41A00AAE76E /* pointlight.cpp */,
-				0255E2842180D41A00AAE76E /* pointlight.h */,
 			);
 			name = Lights;
 			sourceTree = "<group>";
@@ -205,17 +198,12 @@
 		02ED2265215EAB580088BB5E /* Aux */ = {
 			isa = PBXGroup;
 			children = (
+				023115222180EC1D008B2248 /* Color Stuff */,
 				0255E2882180D46100AAE76E /* Intersection */,
 				0255E2872180D42D00AAE76E /* Lights */,
 				0255E2862180D42000AAE76E /* Shapes */,
 				02ED2275216153AC0088BB5E /* camera.cpp */,
 				02ED2276216153AC0088BB5E /* camera.h */,
-				02ED2255215EAB520088BB5E /* color.cpp */,
-				02ED2256215EAB520088BB5E /* color.h */,
-				02ED2278216156D70088BB5E /* image.cpp */,
-				02ED2279216156D70088BB5E /* image.h */,
-				02F6B4BB216262FD00B63C83 /* material.cpp */,
-				02F6B4BC216262FD00B63C83 /* material.h */,
 				02ED225D215EAB520088BB5E /* vector3.cpp */,
 				02ED225E215EAB520088BB5E /* vector3.h */,
 			);
@@ -279,9 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0255E27F2180D3F300AAE76E /* spotlight.cpp in Sources */,
 				02F6B4BD216262FD00B63C83 /* material.cpp in Sources */,
-				0255E27C2180D3D300AAE76E /* ambientlight.cpp in Sources */,
 				02B7507B217E128F00298BA7 /* triangle.cpp in Sources */,
 				02ED2260215EAB520088BB5E /* color.cpp in Sources */,
 				02ED2263215EAB520088BB5E /* shape.cpp in Sources */,
@@ -290,11 +276,9 @@
 				02ED2277216153AC0088BB5E /* camera.cpp in Sources */,
 				02ED22712161116C0088BB5E /* plane.cpp in Sources */,
 				0241406E215AAF610030322C /* main.cpp in Sources */,
-				0255E2822180D40A00AAE76E /* directionallight.cpp in Sources */,
 				02ED227A216156D70088BB5E /* image.cpp in Sources */,
 				02ED2262215EAB520088BB5E /* ray.cpp in Sources */,
 				02F6B4B821624DF600B63C83 /* light.cpp in Sources */,
-				0255E2852180D41A00AAE76E /* pointlight.cpp in Sources */,
 				02ED226B215EB6680088BB5E /* intersection.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

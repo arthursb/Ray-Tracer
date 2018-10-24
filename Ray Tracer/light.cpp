@@ -1,5 +1,7 @@
 #include "light.h"
 
+//todas as luzes são consideradas direction light
+
 Light::Light () {
 	this->position = Vector3(0.0f, 0.0f, 0.0f);
 	this->color = Color(1.0f,1.0f,1.0f);

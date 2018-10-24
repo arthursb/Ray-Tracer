@@ -7,6 +7,7 @@ struct Color{
 	float b;
 
 	Color();
+	Color(float rgb);
 	Color(float r, float g, float b);
 
 	virtual ~Color();

@@ -3,9 +3,15 @@
 #include <cmath>
 
 Color::Color(){
-	this->r = 0.0f;
-	this->g = 0.0f;
-	this->b = 0.0f;
+	this->r = 1.0f;
+	this->g = 1.0f;
+	this->b = 1.0f;
+}
+
+Color::Color(float rgb){
+	this->r = rgb;
+	this->g = rgb;
+	this->b = rgb;
 }
 
 Color::Color(float r, float g, float b){

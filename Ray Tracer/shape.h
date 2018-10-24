@@ -8,17 +8,24 @@
 #include "ray.h"
 #include "light.h"
 #include "color.h"
+#include "material.h"
 #include "intersection.h"
 
 class Intersection;
 
 class Shape{
 public:
+	Material material;
+	
 	virtual ~Shape() { }
 
 	virtual bool intersect(Intersection& intersection) = 0;
-	virtual Color getFinalColor(const Point& contactPoint, const Point& observerPoint, const Light& light) = 0;
-	virtual Color getShadowColor() = 0;
+	
+	virtual Color getColor(const Point& contactPoint, const Point& observerPoint, Light& light) = 0;
+	virtual Color getAmbientColor() = 0;
+	virtual Color getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light) = 0;
+	virtual Color getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light) = 0;
+	
 	virtual Vector3 getNormal(const Point& contactPoint) = 0;
 };
 

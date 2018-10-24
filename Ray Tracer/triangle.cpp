@@ -56,17 +56,10 @@ bool Triangle::intersect(Intersection& intersection){
 	return true;
 }
 
-// I = ka * Ia + kd * Id + ks * Is
-Color Triangle::getFinalColor(const Point& contactPoint, const Point& observerPoint, const Light& light){
-	Vector3 n = this->normal;
-	Vector3 l = (light.position - contactPoint).normalized();
-	Vector3 v = (observerPoint - contactPoint).normalized();
-	
-	Color ambient = this->color * this->material.kAmbient;
-	Color diffuse = light.color * this->material.kDiffuse * (dot(n, l));
-	
-	float specCalc = std::pow(2 * dot(n, l) * dot (n, v) - dot(v, l), this->material.shininess);
-	Color specular = light.color * this->material.kSpecular * specCalc;
+Color Triangle::getColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Color ambient = getAmbientColor();
+	Color diffuse = getDiffuseColor(contactPoint, observerPoint, light);
+	Color specular = getSpecularColor(contactPoint, observerPoint, light);
 	
 	Color finalColor = ambient + diffuse + specular;
 	finalColor.clamp();
@@ -74,13 +67,32 @@ Color Triangle::getFinalColor(const Point& contactPoint, const Point& observerPo
 	return finalColor;
 }
 
-Color Triangle::getShadowColor(){
-	Color ambient = this->color * this->material.kAmbient;
+Color Triangle::getAmbientColor(){
+	Color ambient = this->material.kAmbient * this->material.color;
+	ambient.clamp();
 	
-	Color shadowColor = ambient;
-	shadowColor.clamp();
+	return ambient;
+}
+
+Color Triangle::getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Vector3 n = this->normal;
+	Vector3 l = (light.position - contactPoint).normalized();
+	Vector3 v = (observerPoint - contactPoint).normalized();
 	
-	return shadowColor * 0.6f;
+	Color diffuse = this->material.kDiffuse * this->material.color * light.color * (dot(n, l));
+	
+	return diffuse;
+}
+
+Color Triangle::getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Vector3 n = this->normal;
+	Vector3 l = (light.position - contactPoint).normalized();
+	Vector3 v = (observerPoint - contactPoint).normalized();
+	
+	float specCalc = std::pow(2 * dot(n, l) * dot (n, v) - dot(v, l), this->material.shininess);
+	Color specular = this->material.kSpecular * light.color * specCalc;
+	
+	return specular;
 }
 
 Vector3 Triangle::getNormal(const Point& contactPoint){

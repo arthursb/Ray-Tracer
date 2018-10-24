@@ -1,9 +1,8 @@
 #include "sphere.h"
 #include <iostream>
-Sphere::Sphere(const Point& center, float radius, const Color& color, const Material& material){
+Sphere::Sphere(const Point& center, float radius, const Material& material){
 	this->center = center;
 	this->radius = radius;
-	this->color = color;
 	this->material = material;
 }
 
@@ -43,16 +42,10 @@ bool Sphere::intersect(Intersection& intersection){
 }
 
 // I = ka * Ia + kd * Id + ks * Is
-Color Sphere::getFinalColor(const Point& contactPoint, const Point& observerPoint, const Light& light){
-	Vector3 n = (contactPoint - this->center).normalized();
-	Vector3 l = (light.position - contactPoint).normalized();
-	Vector3 v = (observerPoint - contactPoint).normalized();
-	
-	Color ambient = this->color * this->material.kAmbient;
-	Color diffuse = light.color * this->material.kDiffuse * (dot(n, l));
-	
-	float specCalc = std::pow(2 * dot(n, l) * dot (n, v) - dot(v, l), this->material.shininess);
-	Color specular = light.color * this->material.kSpecular * specCalc;
+Color Sphere::getColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Color ambient = getAmbientColor();
+	Color diffuse = getDiffuseColor(contactPoint, observerPoint, light);
+	Color specular = getSpecularColor(contactPoint, observerPoint, light);
 	
 	Color finalColor = ambient + diffuse + specular;
 	finalColor.clamp();
@@ -60,15 +53,33 @@ Color Sphere::getFinalColor(const Point& contactPoint, const Point& observerPoin
 	return finalColor;
 }
 
-Color Sphere::getShadowColor(){
-	Color ambient = this->color * this->material.kAmbient;
+Color Sphere::getAmbientColor(){
+	Color ambient = this->material.kAmbient * this->material.color;
+	ambient.clamp();
 	
-	Color shadowColor = ambient;
-	shadowColor.clamp();
-	
-	return shadowColor * 0.6f;
+	return ambient;
 }
 
+Color Sphere::getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Vector3 n = (contactPoint - this->center).normalized();
+	Vector3 l = (light.position - contactPoint).normalized();
+	Vector3 v = (observerPoint - contactPoint).normalized();
+	
+	Color diffuse = this->material.kDiffuse * this->material.color * light.color * (dot(n, l));
+	
+	return diffuse;
+}
+
+Color Sphere::getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light){
+	Vector3 n = (contactPoint - this->center).normalized();
+	Vector3 l = (light.position - contactPoint).normalized();
+	Vector3 v = (observerPoint - contactPoint).normalized();
+	
+	float specCalc = std::pow(2 * dot(n, l) * dot (n, v) - dot(v, l), this->material.shininess);
+	Color specular = this->material.kSpecular * light.color * specCalc;
+	
+	return specular;
+}
 
 Vector3 Sphere::getNormal(const Point& contactPoint){
 	return (contactPoint - this->center).normalized();

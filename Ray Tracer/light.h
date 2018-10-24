@@ -1,6 +1,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include <vector>
+
 #include "vector3.h"
 #include "color.h"
 
@@ -16,10 +18,9 @@ public:
 };
 
 class LightSet{
-protected:
+public:
 	std::vector<Light*> lights;
 	
-public:
 	LightSet();
 	
 	virtual ~LightSet();

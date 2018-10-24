@@ -13,13 +13,24 @@
 const GLint WIDTH = 400;
 const GLint HEIGHT = 300;
 
-const bool imageAsBG = true;
+const bool imageAsBG = false;
 const char* imagePath = "/Users/arthursb/Desktop/Ray Tracer/Ray Tracer/Images/img_mars.jpg";
+FIBITMAP *bitmap;
 const Color bgColor = Color(0.4f, 0.4f, 0.4f);
 
-FIBITMAP *bitmap;
+/*
 
-void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
+ for (std::vector<Light*>::iterator iter = lightSet.lights.begin(); iter != lightSet.lights.end(); ++iter){
+ Light *curLight = *iter;
+ 
+ diffuse += getDiffuseColor(contactPoint, observerPoint, *curLight);
+ specular += getDiffuseColor(contactPoint, observerPoint, *curLight);
+ }
+ 
+*/
+
+
+void rayTrace(Image& image, Camera* camera, LightSet* lightSet, ShapeSet* shapeSet){
 	for (int x = 0; x < WIDTH; x++){
 		for (int y = 0; y < HEIGHT; y++){
 			float screenX = (2.0f*x) / WIDTH - 1.0f;
@@ -31,18 +42,29 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 			
 			Intersection intersection(ray);
 		
-			if (scene->intersect(intersection)){
+			if (shapeSet->intersect(intersection)){
 				Point contactPoint = intersection.position();
 				Point observerPoint = camera->origin;
 				
-				*curPixel = intersection.pShape->getFinalColor(contactPoint, observerPoint, light);
-			
-				Ray fromContactToLight = Ray(contactPoint, (light.position - contactPoint).normalized(), T_MAX);
-				Intersection shadowRay(fromContactToLight);
-
-				if (scene->intersect(shadowRay)){
-					*curPixel = intersection.pShape->getShadowColor();
+				Color ambient = intersection.pShape->getAmbientColor();
+				Color diffuse = Color(0);
+				Color specular = Color(0);
+				
+				for (std::vector<Light*>::iterator  iter = lightSet->lights.begin();
+					 								iter != lightSet->lights.end();
+					 								++iter){
+					Light *curLight = *iter;
+					Vector3 contactToLight = (curLight->position - contactPoint).normalized();
+					Ray shadowRay = Ray(contactPoint, contactToLight, T_MAX);
+					Intersection shadowIntersection(shadowRay);
+					
+					if(!shapeSet->intersect(shadowIntersection)){
+						diffuse += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
+						specular += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
+					}
 				}
+				
+				*curPixel = ambient + diffuse + specular;
 			}
 			else{
 				if(imageAsBG == true){
@@ -61,41 +83,37 @@ void rayTrace(Image& image, Camera* camera, Light& light, ShapeSet* scene){
 
 //SET DRAW SCENE
 void drawScene(){
-	ShapeSet scene;
+	ShapeSet sceneShapeSet;
+	LightSet sceneLightSet;
 	
-	Light ambientLight(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
+	Material planeMaterial(Color(0.23f, 0.37f, 0.70f), 0.6f, 1.0f, 1.0f, 1);
+	Material bodyMaterial(Color(1.0f, 1.0f, 0.98f), 0.8f, 0.6f, 0.6f, 20);
+	Material eyeMaterial(Color(1.0f, 1.0f, 1.0f), 0, 0, 0, 1);
+	Material crystalMaterial(Color(0.23f, 0.37f, 0.70f), 1.0f, 0.2f, 0.2f, 1);
+
+	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), planeMaterial);
+	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, bodyMaterial);
+	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, bodyMaterial);
+	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, bodyMaterial);
+	Sphere crystal(Point(-0.75f, 2.0f, 0.0f), 0.125f, crystalMaterial);
+	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, eyeMaterial);
+	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, eyeMaterial);
 	
-	Material planeMaterial(0.6f, 1.0f, 1.0f, 1);
-	Material bodyMaterial(0.8f, 0.6f, 0.6f, 20);
-	Material eyeMaterial(0, 0, 0, 1);
-	Material crystalMaterial(1.0f, 0.0f, 0.0f, 1);
-	Material triangleMaterial(0.6f, 1.0f, 1.0f, 1);
+	Light light1(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
+	Light light2(Point(0.0f, 100.0f, -100.0f), Color(0.0f, 1.0f, 0.0f));
+	Light light3(Point(100.0f, 100.0f, 100.0f), Color(0.0f, 0.0f, 1.0f));
+
+	sceneShapeSet.addShape(&floor);
+	sceneShapeSet.addShape(&sphere1);
+	sceneShapeSet.addShape(&sphere2);
+	sceneShapeSet.addShape(&sphere3);
+	sceneShapeSet.addShape(&crystal);
+	sceneShapeSet.addShape(&eye1);
+	sceneShapeSet.addShape(&eye2);
 	
-	/*
-	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), Color(0.23f, 0.37f, 0.70f), planeMaterial);
-	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
-	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
-	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, Color(1.0f, 1.0f, 0.98f), bodyMaterial);
-	Sphere crystal(Point(-0.75f, 2.0f, 0.0f), 0.125f, Color(0.23f, 0.37f, 0.70f), crystalMaterial);
-	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
-	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, Color(1.0f, 1.0f, 1.0f), eyeMaterial);
-	*/
-	
-	Triangle triangleTest(Point(2.0f, 0.0f, 2.0f), Point(-2.0f, 0.0f, 2.0), Point(0.0f, 0.0, -4.0),
-						  Color(1.0f, 0.15f, 0.15f),
-						  triangleMaterial);
-	
-	/*
-	scene.addShape(&floor);
-	scene.addShape(&sphere1);
-	scene.addShape(&sphere2);
-	scene.addShape(&sphere3);
-	scene.addShape(&crystal);
-	scene.addShape(&eye1);
-	scene.addShape(&eye2);
-	 */
-	
-	scene.addShape(&triangleTest);
+	sceneLightSet.addLight(&light1);
+	//sceneLightSet.addLight(&light2);
+	//sceneLightSet.addLight(&light3);
 	
 	Image image(WIDTH, HEIGHT);
 
@@ -105,7 +123,7 @@ void drawScene(){
 				  25.0f * PI / 180.0f,
 				  (float)WIDTH / (float)HEIGHT);
  
-	rayTrace(image, &camera, ambientLight, &scene);
+	rayTrace(image, &camera, &sceneLightSet, &sceneShapeSet);
 
 	glPointSize(2);
 	glBegin(GL_POINTS);
