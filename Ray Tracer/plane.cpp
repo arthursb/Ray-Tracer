@@ -1,5 +1,3 @@
-#include <vector>
-
 #include "plane.h"
 
 Plane::Plane(const Point& position, const Vector3& normal, const Material& material){

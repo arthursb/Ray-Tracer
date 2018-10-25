@@ -1,4 +1,3 @@
-#include <iostream>
 #include "triangle.h"
 
 Triangle::Triangle(const Point& point1, const Point& point2, const Point& point3, const Color& color, const Material& material){

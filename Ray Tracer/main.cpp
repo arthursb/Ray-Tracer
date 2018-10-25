@@ -10,6 +10,10 @@
 #include "sphere.h"
 #include "light.h"
 
+#ifndef MAX_ITERATIONS
+#define MAX_ITERATIONS 1
+#endif
+
 const GLint WIDTH = 400;
 const GLint HEIGHT = 300;
 
@@ -19,15 +23,54 @@ FIBITMAP *bitmap;
 const Color bgColor = Color(0.4f, 0.4f, 0.4f);
 
 /*
-
- for (std::vector<Light*>::iterator iter = lightSet.lights.begin(); iter != lightSet.lights.end(); ++iter){
- Light *curLight = *iter;
  
- diffuse += getDiffuseColor(contactPoint, observerPoint, *curLight);
- specular += getDiffuseColor(contactPoint, observerPoint, *curLight);
+ if(imageAsBG == true){
+ RGBQUAD color;
+ FreeImage_GetPixelColor(bitmap, x, y, &color);
+ *curPixel = Color((float)color.rgbRed/255, (float)color.rgbGreen/255, (float)color.rgbBlue/255);
  }
+ else
+ *curPixel = bgColor;
  
-*/
+ */
+
+Color rayCast_BG(Ray& ray, LightSet* lightSet, ShapeSet* shapeSet, int iterationCount){
+	Color finalColor;
+	
+	Intersection intersection(ray);
+	
+	if (shapeSet->intersect(intersection)){
+		Point contactPoint = intersection.position();
+		Point observerPoint = ray.origin;
+		
+		Color ambient = intersection.pShape->getAmbientColor();
+		Color diffuse = Color(0);
+		Color specular = Color(0);
+		
+		for (std::vector<Light*>::iterator  iter = lightSet->lights.begin();
+			 iter != lightSet->lights.end();
+			 ++iter){
+			
+			Light *curLight = *iter;
+			Vector3 contactToLight = (curLight->position - contactPoint).normalized();
+			Ray shadowRay = Ray(contactPoint, contactToLight, T_MAX);
+			
+			Intersection shadowIntersection(shadowRay);
+			
+			if(!shapeSet->intersect(shadowIntersection)){
+				diffuse += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
+				specular += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
+			}
+		}
+		
+		finalColor = ambient + diffuse + specular;
+	}
+	else{
+		finalColor = bgColor;
+	}
+	
+	return finalColor;
+}
 
 
 void rayTrace(Image& image, Camera* camera, LightSet* lightSet, ShapeSet* shapeSet){
@@ -40,41 +83,8 @@ void rayTrace(Image& image, Camera* camera, LightSet* lightSet, ShapeSet* shapeS
 			
 			Color* curPixel = image.getColor(x, y);
 			
-			Intersection intersection(ray);
-		
-			if (shapeSet->intersect(intersection)){
-				Point contactPoint = intersection.position();
-				Point observerPoint = camera->origin;
-				
-				Color ambient = intersection.pShape->getAmbientColor();
-				Color diffuse = Color(0);
-				Color specular = Color(0);
-				
-				for (std::vector<Light*>::iterator  iter = lightSet->lights.begin();
-					 								iter != lightSet->lights.end();
-					 								++iter){
-					Light *curLight = *iter;
-					Vector3 contactToLight = (curLight->position - contactPoint).normalized();
-					Ray shadowRay = Ray(contactPoint, contactToLight, T_MAX);
-					Intersection shadowIntersection(shadowRay);
-					
-					if(!shapeSet->intersect(shadowIntersection)){
-						diffuse += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
-						specular += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
-					}
-				}
-				
-				*curPixel = ambient + diffuse + specular;
-			}
-			else{
-				if(imageAsBG == true){
-					RGBQUAD color;
-					FreeImage_GetPixelColor(bitmap, x, y, &color);
-					*curPixel = Color((float)color.rgbRed/255, (float)color.rgbGreen/255, (float)color.rgbBlue/255);
-				}
-				else
-					*curPixel = bgColor;
-			}
+			*curPixel = rayCast_BG(ray, lightSet, shapeSet, 0);
+			
 		}
 	}
 

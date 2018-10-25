@@ -1,5 +1,5 @@
 #include "sphere.h"
-#include <iostream>
+
 Sphere::Sphere(const Point& center, float radius, const Material& material){
 	this->center = center;
 	this->radius = radius;
