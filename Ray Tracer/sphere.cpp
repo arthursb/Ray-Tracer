@@ -81,6 +81,14 @@ Color Sphere::getSpecularColor(const Point& contactPoint, const Point& observerP
 	return specular;
 }
 
+bool Sphere::isMirror(){
+	return this->material.isMirror;
+}
+
+bool Sphere::isTransparent(){
+	return this->material.isTransparent;
+}
+
 Vector3 Sphere::getNormal(const Point& contactPoint){
 	return (contactPoint - this->center).normalized();
 }

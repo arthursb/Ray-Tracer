@@ -26,14 +26,16 @@ public:
 	virtual Color getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light) = 0;
 	virtual Color getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light) = 0;
 	
+	virtual bool isMirror() = 0;
+	virtual bool isTransparent() = 0;
+	
 	virtual Vector3 getNormal(const Point& contactPoint) = 0;
 };
 
-class ShapeSet{
-protected:
+class ShapeSet{	
+public:
 	std::vector<Shape*> shapes;
 	
-public:
 	ShapeSet();
 	
 	virtual ~ShapeSet();

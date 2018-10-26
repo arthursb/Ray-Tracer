@@ -31,6 +31,9 @@ public:
 	virtual Color getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light);
 	virtual Color getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light);
 	
+	virtual bool isMirror();
+	virtual	bool isTransparent();
+	
 	virtual Vector3 getNormal(const Point& contactPoint);
 };
 

@@ -1,4 +1,5 @@
 #include "plane.h"
+#include <iostream>
 
 Plane::Plane(const Point& position, const Vector3& normal, const Material& material){
 	this->position = position;
@@ -18,7 +19,7 @@ bool Plane::intersect(Intersection& intersection){
 	}
 	
 	float t = dot(position - intersection.ray.origin, normal) / dDotN;
-	
+
 	//perto demais
 	if (t <= T_MIN) {
 		return false;
@@ -73,6 +74,14 @@ Color Plane::getSpecularColor(const Point& contactPoint, const Point& observerPo
 	Color specular = this->material.kSpecular * light.color * specCalc;
 	
 	return specular;
+}
+
+bool Plane::isMirror(){
+	return this->material.isMirror;
+}
+
+bool Plane::isTransparent(){
+	return this->material.isTransparent;
 }
 
 Vector3 Plane::getNormal(const Point& contactPoint){

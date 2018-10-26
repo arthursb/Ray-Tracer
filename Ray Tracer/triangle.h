@@ -13,10 +13,9 @@ public:
 	Point position;
 	
 	Vector3 normal;
-	Color color;
 	Material material;
 	
-	Triangle(const Point& point1, const Point& point2, const Point& point3, const Color& color, const Material& material);
+	Triangle(const Point& point1, const Point& point2, const Point& point3, const Material& material);
 	
 	virtual ~Triangle();
 	
@@ -26,6 +25,9 @@ public:
 	virtual Color getAmbientColor();
 	virtual Color getSpecularColor(const Point& contactPoint, const Point& observerPoint, Light& light);
 	virtual Color getDiffuseColor(const Point& contactPoint, const Point& observerPoint, Light& light);
+	
+	virtual bool isMirror();
+	virtual bool isTransparent();
 	
 	virtual Vector3 getNormal(const Point& contactPoint);
 	

@@ -1,6 +1,6 @@
 #include "triangle.h"
 
-Triangle::Triangle(const Point& point1, const Point& point2, const Point& point3, const Color& color, const Material& material){
+Triangle::Triangle(const Point& point1, const Point& point2, const Point& point3, const Material& material){
 	this->point1 = point1;
 	this->point2 = point2;
 	this->point3 = point3;
@@ -9,10 +9,9 @@ Triangle::Triangle(const Point& point1, const Point& point2, const Point& point3
 	
 	Vector3 P2P1 = point2 - point1;
 	Vector3 P3P1 = point3 - point1;
-	Vector3 crossProduct = cross(P3P1, P2P1);
+	Vector3 crossProduct = cross(P2P1, P3P1);
 	this->normal = crossProduct.normalized();
-	
-	this->color = color;
+
 	this->material = material;
 }
 
@@ -92,6 +91,14 @@ Color Triangle::getSpecularColor(const Point& contactPoint, const Point& observe
 	Color specular = this->material.kSpecular * light.color * specCalc;
 	
 	return specular;
+}
+
+bool Triangle::isMirror(){
+	return this->material.isMirror;
+}
+
+bool Triangle::isTransparent(){
+	return this->material.isTransparent;
 }
 
 Vector3 Triangle::getNormal(const Point& contactPoint){
