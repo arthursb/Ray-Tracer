@@ -22,6 +22,7 @@ struct Vector3{
 
 	Vector3 normalized();
 	Vector3 getReflection(const Vector3& normal);
+	Vector3 getRefraction(const Vector3& normal, float snellK);
 
 	Vector3& operator =(const Vector3& v);
 	Vector3& operator +=(const Vector3& v);

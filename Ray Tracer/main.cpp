@@ -15,6 +15,11 @@ const GLint HEIGHT = 300;
 
 const float mirrorK = 0.85f;
 
+//debug: everything is either air or glass
+const float snellK_air = 1.0f;
+const float snellK_water = 1.333f;
+const float snellK_glass = 1.5f;
+
 const bool imageAsBG = false;
 const char* imagePath = "/Users/arthursb/Desktop/Ray Tracer/Ray Tracer/Images/img_mars.jpg";
 FIBITMAP *bitmap;
@@ -73,14 +78,20 @@ Color rayCast(Ray& ray, LightSet* lightSet, ShapeSet* shapeSet, int x, int y){
 		Vector3 reflectedDirection = ray.direction.getReflection(intersection.normal()).normalized();
 		Ray reflectedRay = Ray(contactPoint, reflectedDirection, T_MAX);
 		
-		//recursively add reflection rays contributions to the final color\
-		//
+		//recursively add reflection rays contributions to the final color
 		finalColor += mirrorK * rayCast(reflectedRay, lightSet, shapeSet, x, y);
 	}
 	
 	//if collided object is a transparent, we need to cast additional refraction rays
-	if(intersection.pShape->material.isTransparent == true){
-		//TODO
+	if(intersection.pShape->isTransparent() == true){
+		//create a refraction ray from contact point
+
+		Vector3 refractionDirection = ray.direction.getRefraction(intersection.normal(), snellK_glass).normalized();
+		//std::cout << refractionDirection.x << refractionDirection.y << refractionDirection.z << "_";
+		Ray refractedRay = Ray(contactPoint, refractionDirection, T_MAX);
+		
+		//recursively add refraction rays contributions to the final color
+		finalColor += rayCast(refractedRay, lightSet, shapeSet, x, y);
 	}
 	
 	//return final color clamped between 0 and 1
@@ -115,6 +126,7 @@ void drawScene(){
 	Material eyeMaterial(Color(1.0f, 1.0f, 1.0f), 0, 0, 0, 1);
 	Material crystalMaterial(Color(0.23f, 0.37f, 0.70f), 1.0f, 0.2f, 0.2f, 1);
 	Material triMaterial(Color(1.0f, 0.1f, 0.1f), 1.0f, 1.0f, 1.0f, 1, true, false);
+	Material glassMaterial(Color(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f, 1, false, true);
 
 	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), planeMaterial);
 	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, bodyMaterial);
@@ -126,21 +138,23 @@ void drawScene(){
 	Triangle triangle1(Point(3.0f, 5.0f, -2.0), Point(3.0f, 1.0f, -4.0f), Point(3.0f, 1.0f, 0.0f), triMaterial);
 	Triangle triangle2(Point(-4.0f, 0.0f, -2.0), Point(2.0f, 0.0f, -4.0f), Point(2.0f, 0.0f, 3.0f), triMaterial);
 	Triangle triangle3(Point(3.0f, 5.0f, 3.0), Point(3.0f, 1.0f, 1.0f), Point(3.0f, 1.0f, 5.0f), triMaterial);
+	Sphere glass(Point(-2.5f, 2.0f, -1.8f), 0.5f, glassMaterial);
 	
 	Light light1(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
 	Light light2(Point(0.0f, 100.0f, -100.0f), Color(0.0f, 1.0f, 0.0f));
 	Light light3(Point(100.0f, 100.0f, 100.0f), Color(0.0f, 0.0f, 1.0f));
 
-	//sceneShapeSet.addShape(&floor);
+	sceneShapeSet.addShape(&floor);
 	sceneShapeSet.addShape(&sphere1);
 	sceneShapeSet.addShape(&sphere2);
 	sceneShapeSet.addShape(&sphere3);
 	sceneShapeSet.addShape(&crystal);
 	sceneShapeSet.addShape(&eye1);
 	sceneShapeSet.addShape(&eye2);
-	sceneShapeSet.addShape(&triangle1);
-	sceneShapeSet.addShape(&triangle2);
-	sceneShapeSet.addShape(&triangle3);
+	//sceneShapeSet.addShape(&triangle1);
+	//sceneShapeSet.addShape(&triangle2);
+	//sceneShapeSet.addShape(&triangle3);
+	sceneShapeSet.addShape(&glass);
 	
 	sceneLightSet.addLight(&light1);
 	//sceneLightSet.addLight(&light2);

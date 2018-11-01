@@ -56,6 +56,39 @@ Vector3 Vector3::getReflection(const Vector3& normal){
 	return *this - 2 * dot(*this, normal) * normal;
 }
 
+//snellK = refraction index of the object a ray is getting inside or leaving
+// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
+Vector3 Vector3::getRefraction(const Vector3& normal, float snellK){
+	Vector3 correctNormal = Vector3(normal);
+	
+	//η=η1/η2
+	float snellFinal;
+	
+	//c1=cos(θ1)=N⋅I
+	float thisDotN = dot(*this, normal);
+
+	if(thisDotN < 0){
+		thisDotN = -thisDotN;
+		snellFinal = 1/snellK;
+	}
+	else{
+		snellFinal = snellK;
+		correctNormal = -normal;
+	}
+
+	//c2= √(1−(n1/n2)2 * (1−cos2(θ1)))
+	float calc = 1 - (snellFinal * snellFinal) * (1 - thisDotN * thisDotN);
+	
+	if(calc < 0)
+		return Vector3(); //zero
+	
+	//T=ηI+(ηc1−c2)N
+	Vector3 refraction = (snellFinal * *this) + (snellFinal * thisDotN - sqrt(calc)) * correctNormal;
+	
+	return  refraction;
+}
+
+
 Vector3& Vector3::operator =(const Vector3& v){
 	this->x = v.x;
 	this->y = v.y;
