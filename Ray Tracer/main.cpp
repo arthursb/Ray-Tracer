@@ -64,9 +64,30 @@ Color rayCast(Ray& ray, LightSet* lightSet, ShapeSet* shapeSet, int x, int y){
 		Ray shadowRay = Ray(contactPoint, contactToLight, T_MAX);
 		Intersection shadowIntersection(shadowRay);
 		
+		if(shapeSet->intersect(shadowIntersection)){
+			//check if ray is passing through a transparent object
+			if(shadowIntersection.pShape->isTransparent()){
+				Point shadowPoint = shadowIntersection.position();
+				Vector3 normal = shadowIntersection.pShape->getNormal(shadowPoint);
+				Vector3 refractionDirection = shadowRay.direction.getRefraction(normal, snellK_glass).normalized();
+				Ray refractedRay = Ray(shadowPoint, refractionDirection, T_MAX);
+				Intersection shadowRefractedIntersection(refractedRay);
+				
+				if(!shapeSet->intersect(shadowRefractedIntersection)){
+					float factor = dot(shadowRay.direction, refractionDirection);
+					
+					Color diff = intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
+					Color spec = intersection.pShape->getSpecularColor(contactPoint, observerPoint, *curLight);
+					
+					finalColor += factor * diff;
+					finalColor += factor * spec;
+				}
+				
+			}
+		}
 		//if there is no object between the contact point and the light source,
 		//add diffuse and specular contributions
-		if(!shapeSet->intersect(shadowIntersection)){
+		else{
 			finalColor += intersection.pShape->getDiffuseColor(contactPoint, observerPoint, *curLight);
 			finalColor += intersection.pShape->getSpecularColor(contactPoint, observerPoint, *curLight);
 		}
@@ -87,7 +108,6 @@ Color rayCast(Ray& ray, LightSet* lightSet, ShapeSet* shapeSet, int x, int y){
 		//create a refraction ray from contact point
 
 		Vector3 refractionDirection = ray.direction.getRefraction(intersection.normal(), snellK_glass).normalized();
-		//std::cout << refractionDirection.x << refractionDirection.y << refractionDirection.z << "_";
 		Ray refractedRay = Ray(contactPoint, refractionDirection, T_MAX);
 		
 		//recursively add refraction rays contributions to the final color
@@ -121,49 +141,73 @@ void drawScene(){
 	ShapeSet sceneShapeSet;
 	LightSet sceneLightSet;
 	
-	Material planeMaterial(Color(0.23f, 0.37f, 0.70f), 0.6f, 1.0f, 1.0f, 1);
-	Material bodyMaterial(Color(1.0f, 1.0f, 0.98f), 0.8f, 0.6f, 0.6f, 20);
-	Material eyeMaterial(Color(1.0f, 1.0f, 1.0f), 0, 0, 0, 1);
-	Material crystalMaterial(Color(0.23f, 0.37f, 0.70f), 1.0f, 0.2f, 0.2f, 1);
-	Material triMaterial(Color(1.0f, 0.1f, 0.1f), 1.0f, 1.0f, 1.0f, 1, true, false);
-	Material glassMaterial(Color(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f, 1, false, true);
+	
+	Material planeMaterial(Color(0.2, 0.2, 0.2), 1.0f, 1.0f, 1.0f, 1);
+	Material bodyMaterial(Color(0.0f, 1.0f, 0.0f), 0.1f, 0.0f, 0.0f, 50, false, true);
+	Material nerveMaterial(Color(0.76f, 0.0f, 0.0f), 0.8f, 1.2f, 1.2f, 20);
+	Material teethMaterial(Color(0.98f, 0.84f, 0.67f), 0.8f, 1.2f, 1.2f, 20);
+	Material triMaterial(Color(0.1f, 0.1f, 0.1f), 0.0f, 0.0f, 0.0f, 1, true, false);
 
-	Plane floor(Point(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), planeMaterial);
-	Sphere sphere1(Point(0.0f, 1.0f, 0.0f), 1.0f, bodyMaterial);
-	Sphere sphere2(Point(0.0f, 2.0f, 0.0f), 0.75f, bodyMaterial);
-	Sphere sphere3(Point(0.0f, 3.0f, 0.0f), 0.5f, bodyMaterial);
-	Sphere crystal(Point(-0.75f, 2.0f, 0.0f), 0.125f, crystalMaterial);
-	Sphere eye1(Point(-0.5f, 3.0f, -0.2f), 0.07f, eyeMaterial);
-	Sphere eye2(Point(-0.5f, 3.0f, 0.2f), 0.07f, eyeMaterial);
-	Triangle triangle1(Point(3.0f, 5.0f, -2.0), Point(3.0f, 1.0f, -4.0f), Point(3.0f, 1.0f, 0.0f), triMaterial);
-	Triangle triangle2(Point(-4.0f, 0.0f, -2.0), Point(2.0f, 0.0f, -4.0f), Point(2.0f, 0.0f, 3.0f), triMaterial);
-	Triangle triangle3(Point(3.0f, 5.0f, 3.0), Point(3.0f, 1.0f, 1.0f), Point(3.0f, 1.0f, 5.0f), triMaterial);
-	Sphere glass(Point(-2.5f, 2.0f, -1.8f), 0.5f, glassMaterial);
+	Plane floor(Point(0.0f, -2.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), planeMaterial);
+	Sphere sphereBody(Point(0.0, 1.0f, 0.0f), 0.9f, bodyMaterial);
+	Sphere sphereNerve1(Point(-0.2f, 0.9f, 0.0f), 0.2f, nerveMaterial);
+	Sphere sphereNerve2(Point(0.2f, 0.9f, 0.0f), 0.2f, nerveMaterial);
+	Sphere sphereNerve3(Point(0.0f, 1.25f, 0.0f), 0.2f, nerveMaterial);
+	Triangle tooth1(Point(-1.0, -0.0f, 0.0f), Point(-0.75, 0.4f, 0.0f), Point(-0.4, 0.1f, 0.0f), teethMaterial);
+	Triangle tooth1_1(Point(-1.0, -0.0f, 0.0f), Point(-0.5, 0.1f, 0.0f),Point(-0.85, -0.2f, 0.0f), teethMaterial);
+	Triangle tooth1_2(Point(-0.85, -0.2f, 0.0f), Point(-0.75, -0.0f, 0.0f), Point(-0.55, -0.3f, 0.0f), teethMaterial);
+	Triangle tooth2(Point(0.4, 0.1f, 0.0f), Point(0.75, 0.4f, 0.0f), Point(1.0, -0.0f, 0.0f), teethMaterial);
+	Triangle tooth2_1(Point(1.0, -0.0f, 0.0f), Point(0.85, -0.2f, 0.0f), Point(0.5, 0.1f, 0.0f), teethMaterial);
+	Triangle tooth2_2(Point(0.85, -0.2f, 0.0f), Point(0.55, -0.3f, 0.0f), Point(0.75, -0.0f, 0.0f), teethMaterial);
+	Triangle tooth3(Point(-0.35, 0.12f, 0.0f), Point(-0.18, 0.05f, 0.0f), Point(-0.35, -0.2f, 0.0f), teethMaterial);
+	Triangle tooth4(Point(0.35, 0.12f, 0.0f), Point(0.35, -0.2f, 0.0f), Point(0.18, 0.05f, 0.0f), teethMaterial);
+	
+	Triangle triangleMirror(Point(4.0f, -1.0f, 6.0f), Point(0.0f, 6.0f, 4.0f), Point(-4.0f, -1.0f, 6.0f), triMaterial);
+	Sphere sphere1(Point(1.0f, 0.0f, 2.0f), 0.2f, nerveMaterial);
+	Sphere sphere2(Point(-1.0f, 0.0f, 2.0f), 0.2f, nerveMaterial);
+	Sphere sphere3(Point(0.0f, 0.0f, 1.0f), 0.2f, nerveMaterial);
+	Sphere sphere4(Point(0.0f, 1.0f, 1.0f), 0.2f, nerveMaterial);
+	Sphere sphere5(Point(0.0f, -1.0f, 2.0f), 0.2f, nerveMaterial);
+	
 	
 	Light light1(Point(-500.0f, 100.0f, -300.0f), Color(0.5f, 0.5f, 0.5f));
-	Light light2(Point(0.0f, 100.0f, -100.0f), Color(0.0f, 1.0f, 0.0f));
-	Light light3(Point(100.0f, 100.0f, 100.0f), Color(0.0f, 0.0f, 1.0f));
 
 	sceneShapeSet.addShape(&floor);
+	
+	//DEMO MIRROR
+	/*
 	sceneShapeSet.addShape(&sphere1);
 	sceneShapeSet.addShape(&sphere2);
 	sceneShapeSet.addShape(&sphere3);
-	sceneShapeSet.addShape(&crystal);
-	sceneShapeSet.addShape(&eye1);
-	sceneShapeSet.addShape(&eye2);
-	//sceneShapeSet.addShape(&triangle1);
-	//sceneShapeSet.addShape(&triangle2);
-	//sceneShapeSet.addShape(&triangle3);
-	sceneShapeSet.addShape(&glass);
+	sceneShapeSet.addShape(&sphere4);
+	sceneShapeSet.addShape(&sphere5);
+	sceneShapeSet.addShape(&triangleMirror);
+	*/
+	
+	
+	//METROID
+	
+	sceneShapeSet.addShape(&sphereBody);
+	sceneShapeSet.addShape(&sphereNerve1);
+	sceneShapeSet.addShape(&sphereNerve2);
+	sceneShapeSet.addShape(&sphereNerve3);
+	sceneShapeSet.addShape(&tooth1);
+	sceneShapeSet.addShape(&tooth1_1);
+	sceneShapeSet.addShape(&tooth1_2);
+	sceneShapeSet.addShape(&tooth2);
+	sceneShapeSet.addShape(&tooth2_1);
+	sceneShapeSet.addShape(&tooth2_2);
+	sceneShapeSet.addShape(&tooth3);
+	sceneShapeSet.addShape(&tooth4);
+	
+	
 	
 	sceneLightSet.addLight(&light1);
-	//sceneLightSet.addLight(&light2);
-	//sceneLightSet.addLight(&light3);
 	
 	Image image(WIDTH, HEIGHT);
 
-	Camera camera(Point(-7.0f, 2.0f, -3.0f),
-				  Vector3(0.0f, 2.0f, -2.0f),
+	Camera camera(Point(0.0f, 0.0f, -5.0f),
+				  Vector3(0.0f, 0.0f, 0.0f),
 				  Vector3(0.0f, -1.0f, 0.0f),
 				  25.0f * PI / 180.0f,
 				  (float)WIDTH / (float)HEIGHT);
@@ -192,7 +236,7 @@ int main( ){
 		return -1;
 	}
 
-	window = glfwCreateWindow(WIDTH, HEIGHT, "TEST", NULL, NULL);
+	window = glfwCreateWindow(WIDTH, HEIGHT, "ARTHUR RAYTRACER", NULL, NULL);
 	
 	if (!window){
 		glfwTerminate();
