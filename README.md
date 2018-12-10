@@ -2,7 +2,7 @@
 Trabalho feito para a disciplina de Computação Gráfica do curso de Ciências da Computação na UFC
 
 Escolhi mostrar uma renderização simplificada de um Metroid como demonstração. O resultado foi o seguinte:
-![Metroid](RayTracer/Images/screenshot.png)
+![Metroid](Ray Tracer/Images/screenshot.png)
 
 Fiz o trabalho seguindo como base os seguintes materiais:
 
